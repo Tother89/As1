@@ -29,13 +29,6 @@ public class HabitMainActivity extends AppCompatActivity {
 
         Button addButton = (Button) findViewById(R.id.addbutton);
 
-//        addButton.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(this,AddHabitActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
     /** sendMessage from https://developer.android.com/training/basics/firstapp/starting-activity.html
