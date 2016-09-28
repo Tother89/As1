@@ -10,11 +10,6 @@ public class CompletedHabit extends Habit {
     }
 
     @Override
-    public String getTitle() {
-        return null;
-    }
-
-    @Override
     public boolean isComplete() {
         return true;
     }

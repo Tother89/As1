@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class HabitMainActivity extends AppCompatActivity {
-    private static final String FILENAME = "file.sav";
+
     public final static String EXTRA_MESSAGE ="com.example.cfs.toth_habittracker.MESSAGE";
 
     @Override
@@ -35,48 +35,12 @@ public class HabitMainActivity extends AppCompatActivity {
      *
      * modified by toth
      */
-    public void sendMessage(View view) {
+    public void enterHabit(View view) {
         Intent intent = new Intent(this, AddHabitActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
-    /**Code from 301 Lab lonelyTwitter**/
-    private String[] loadFromFile() {
-        ArrayList<String> tweets = new ArrayList<String>();
-        try {
-            FileInputStream fis = openFileInput(FILENAME);
-            BufferedReader in = new BufferedReader(new InputStreamReader(fis));
-            String line = in.readLine();
-            while (line != null) {
-                tweets.add(line);
-                line = in.readLine();
-            }
 
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        return tweets.toArray(new String[tweets.size()]);
-    }
-    /**Code from 301 Lab lonelyTwitter**/
-    private void saveInFile(String text, Date date) {
-        try {
-            FileOutputStream fos = openFileOutput(FILENAME,
-                    Context.MODE_APPEND);
-            fos.write(new String(date.toString() + " | " + text)
-                    .getBytes());
-            fos.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
 }

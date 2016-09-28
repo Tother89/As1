@@ -26,5 +26,5 @@
         android:id="@+id/addbutton"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/editText"
-        android:onClick="sendMessage"/>
+        android:onClick="enterHabit"/>
 </RelativeLayout>

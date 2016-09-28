@@ -15,25 +15,23 @@ public abstract class Habit implements HabitInterface{
     public Date date;
 
     public Habit(String givenTitle){
-
         this.title = givenTitle;
-        setDate(date);
-    }
-    //Set the exact date and time
-    public void setDate(Date date) {
         this.date = new Date();
     }
-    //Get the current date and time when the Habit was created
-    public String getDate(){
-        this.date = new Date();
-        return dateFormat.format(this.date);}
 
-    public void setTitle(String title) {
+    public void editTitle(String title) throws HabitTooLongException{
+        if(title.length() > 100){
+            throw new HabitTooLongException();
+        }
         this.title = title;
     }
 
     public String getHabitTitle() {
         return title;
+    }
+
+    public Date getDate() {
+        return date;
     }
 
     public abstract boolean isComplete();
