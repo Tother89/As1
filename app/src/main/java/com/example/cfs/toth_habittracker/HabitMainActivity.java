@@ -27,8 +27,6 @@ public class HabitMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_main);
 
-        Button addButton = (Button) findViewById(R.id.addbutton);
-
     }
 
     /** sendMessage from https://developer.android.com/training/basics/firstapp/starting-activity.html

@@ -40,7 +40,7 @@ public class SaveHabitInfo {
     /**Code from 301 Lab lonelyTwitter**/
     private void saveInFile(String text, Date date) {
         try {
-            FileOutputStream fos = openFileOutput(FILENAME);
+            //FileOutputStream fos = openFileOutput(FILENAME);
             fos.write(new String(date.toString() + " | " + text)
                     .getBytes());
             fos.close();
