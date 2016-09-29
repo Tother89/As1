@@ -1,6 +1,7 @@
 package com.example.cfs.toth_habittracker;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -22,7 +23,8 @@ public class AddHabitActivity extends AppCompatActivity {
         textView.setText(message);
 
         ViewGroup layout = (ViewGroup) findViewById(R.id.activity_add_habit);
-        layout.addView(textView);
+        ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(70,70);
+        layout.addView(textView,lp);
     }
 
 

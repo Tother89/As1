@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">toth-HabitTracker</string>
     <string name="monday">Monday</string>
+    <string name="tuesday">Tuesday</string>
+    <string name="wednesday">Wednesday</string>
+    <string name="thrusday">Thursday</string>
+    <string name="friday">Friday</string>
 </resources>
