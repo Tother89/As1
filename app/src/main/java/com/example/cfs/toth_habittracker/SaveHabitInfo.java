@@ -14,13 +14,16 @@ import java.util.Date;
 /**
  * Created by tothd on 9/27/2016.
  */
+
 public class SaveHabitInfo {
-    private static final String FILENAME = "file.sav";
+    //TODO: Get this saving and loading files from FILENAME
     /**Code from 301 Lab lonelyTwitter**/
-    private String[] loadFromFile() {
+    private static final String FILENAME = "file.sav";
+
+    private String[] loadFromFile(Context context) {
         ArrayList<String> habits = new ArrayList<String>();
         try {
-            FileInputStream fis = openFileInput(FILENAME);
+            FileInputStream fis = context.openFileInput(FILENAME);
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             String line = in.readLine();
             while (line != null) {
@@ -38,9 +41,9 @@ public class SaveHabitInfo {
         return habits.toArray(new String[habits.size()]);
     }
     /**Code from 301 Lab lonelyTwitter**/
-    private void saveInFile(String text, Date date) {
+    public void saveInFile(String text, Date date, Context context) {
         try {
-            FileOutputStream fos = openFileOutput(FILENAME);
+            FileOutputStream fos = context.openFileOutput(FILENAME,1);
             fos.write(new String(date.toString() + " | " + text)
                     .getBytes());
             fos.close();

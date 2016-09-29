@@ -18,16 +18,17 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class HabitMainActivity extends AppCompatActivity {
-
+    private static final String FILENAME = "file.sav";
     public final static String EXTRA_MESSAGE ="com.example.cfs.toth_habittracker.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        Date date = new Date();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_main);
-
-        Button addButton = (Button) findViewById(R.id.addbutton);
+        SaveHabitInfo saveHabit = new SaveHabitInfo();
+        saveHabit.saveInFile(FILENAME,date,HabitMainActivity.this);
+        Button addButton = (Button) findViewById(R.id.addButton);
 
     }
 

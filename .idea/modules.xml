@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/HabitApp.iml" filepath="$PROJECT_DIR$/HabitApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/toth-HabitTracker.iml" filepath="$PROJECT_DIR$/toth-HabitTracker.iml" />
     </modules>
   </component>
 </project>
