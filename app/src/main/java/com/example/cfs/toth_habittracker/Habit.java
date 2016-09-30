@@ -13,7 +13,6 @@ import java.util.Date;
  */
 public abstract class Habit implements HabitInterface{
     private String title;
-    private DateFormat dateFormat = new SimpleDateFormat("YYYY/MM/dd HH:mm:ss");
     public Date date;
 
     public Habit(String givenTitle){
@@ -39,7 +38,7 @@ public abstract class Habit implements HabitInterface{
     public abstract boolean isComplete();
 
     //Method that returns
-    public abstract ArrayList<String> weekDaysActive();
+    public abstract void setWeekDays(ArrayList list);
 
 
 }

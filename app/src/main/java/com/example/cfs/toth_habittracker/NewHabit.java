@@ -9,6 +9,7 @@ import java.util.ArrayList;
  */
 public class NewHabit extends Habit {
 
+
     public NewHabit(String givenTitle) {
         super(givenTitle);
     }
@@ -19,8 +20,8 @@ public class NewHabit extends Habit {
     }
 
     @Override
-    public ArrayList<String> weekDaysActive() {
+    public void setWeekDays(ArrayList list) {
 
-        return null;
+
     }
 }
