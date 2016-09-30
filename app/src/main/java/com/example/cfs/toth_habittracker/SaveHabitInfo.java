@@ -5,11 +5,13 @@ import android.content.Context;
 import com.google.gson.Gson;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,7 +24,7 @@ public class SaveHabitInfo {
     /**Code from 301 Lab lonelyTwitter**/
     private static final String FILENAME = "file.sav";
 
-    private String[] loadFromFile(Context context) {
+    private static String[] loadFromFile(Context context) {
         ArrayList<String> habits = new ArrayList<String>();
         try {
             FileInputStream fis = context.openFileInput(FILENAME);
@@ -48,11 +50,11 @@ public class SaveHabitInfo {
 
             FileOutputStream fos = context.openFileOutput(FILENAME,0);
 
-            fos.write(new String(date.toString() + " | " + text)
-                    .getBytes());
+            BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
 
             Gson gson = new Gson();
-
+            gson.toJson(habitList, out);
+            out.flush();
             fos.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block

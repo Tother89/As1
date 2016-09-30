@@ -26,9 +26,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="45dp"
-        android:onClick="setWeekDays"/>
+        android:onClick="setWeekDaysActive"/>
 
-    <RadioButton
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/monday"
@@ -36,7 +36,7 @@
         android:layout_below="@+id/confirmButton"
         android:layout_alignParentStart="true" />
 
-    <RadioButton
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tuesday"
@@ -44,7 +44,7 @@
         android:layout_below="@+id/monButton"
         android:layout_alignParentStart="true" />
 
-    <RadioButton
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/wednesday"
@@ -52,7 +52,7 @@
         android:layout_below="@+id/tuesButton"
         android:layout_alignParentStart="true" />
 
-    <RadioButton
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/thursday"
@@ -60,7 +60,7 @@
         android:layout_below="@+id/wedButton"
         android:layout_alignParentStart="true" />
 
-    <RadioButton
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/friday"
@@ -68,7 +68,7 @@
         android:layout_below="@+id/thurButton"
         android:layout_alignParentStart="true" />
 
-    <RadioButton
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/saturday"
@@ -76,7 +76,7 @@
         android:layout_below="@+id/friButton"
         android:layout_alignParentStart="true" />
 
-    <RadioButton
+    <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sunday"

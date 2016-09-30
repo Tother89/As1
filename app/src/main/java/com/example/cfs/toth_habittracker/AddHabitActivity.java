@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.Checkable;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -17,6 +19,8 @@ import java.util.Date;
 public class AddHabitActivity extends AppCompatActivity {
     private NewHabit newHabit = new NewHabit("New task.");
     private static final String FILENAME = "file.sav";
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +49,27 @@ public class AddHabitActivity extends AppCompatActivity {
         Date date = new Date();
         ArrayList<String> dayList = new ArrayList();
         // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
+        //boolean checked = ((CheckBox) view).isChecked();
         if(findViewById(R.id.monButton).isActivated()){
             dayList.add("Monday");
+        }
+        if(findViewById(R.id.tuesButton).isActivated()){
+            dayList.add("Tuesday");
+        }
+        if(findViewById(R.id.wedButton).isActivated()){
+            dayList.add("Wednesday");
+        }
+        if(findViewById(R.id.thurButton).isActivated()){
+            dayList.add("Thursday");
+        }
+        if(findViewById(R.id.friButton).isActivated()){
+            dayList.add("Friday");
+        }
+        if(findViewById(R.id.satButton).isActivated()){
+            dayList.add("Saturday");
+        }
+        if(findViewById(R.id.sunButton).isActivated()){
+            dayList.add("Sunday");
         }
         SaveHabitInfo saveHabit = new SaveHabitInfo();
         saveHabit.saveInFile(FILENAME,date,AddHabitActivity.this);
