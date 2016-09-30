@@ -18,18 +18,12 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class HabitMainActivity extends AppCompatActivity {
-    private static final String FILENAME = "file.sav";
-    public final static String EXTRA_MESSAGE ="com.example.cfs.toth_habittracker.MESSAGE";
+    public final static String HABIT_TITLE ="com.example.cfs.toth_habittracker.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Date date = new Date();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_main);
-        SaveHabitInfo saveHabit = new SaveHabitInfo();
-        saveHabit.saveInFile(FILENAME,date,HabitMainActivity.this);
-        Button addButton = (Button) findViewById(R.id.addButton);
-
     }
 
     /** sendMessage from https://developer.android.com/training/basics/firstapp/starting-activity.html
@@ -40,7 +34,14 @@ public class HabitMainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, AddHabitActivity.class);
         EditText editText = (EditText) findViewById(R.id.editText);
         String message = editText.getText().toString();
-        intent.putExtra(EXTRA_MESSAGE, message);
+        intent.putExtra(HABIT_TITLE, message);
+        startActivity(intent);
+    }
+    public void enterCompleted(View view){
+        Intent intent = new Intent(this, CompletedHabitsActivity.class);
+//        EditText editText = (EditText) findViewById(R.id.editText);
+//        String message = editText.getText().toString();
+//        intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
     }
 

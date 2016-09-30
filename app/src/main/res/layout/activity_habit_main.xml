@@ -27,4 +27,32 @@
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/editText"
         android:onClick="enterHabit"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Current Day"
+        android:id="@+id/curentDay"
+        android:layout_below="@+id/addButton"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/addButton" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_below="@+id/curentDay"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Completed Habits"
+        android:textSize="10dp"
+        android:id="@+id/completedButton"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignRight="@+id/addButton"
+        android:onClick="enterCompleted"/>
 </RelativeLayout>

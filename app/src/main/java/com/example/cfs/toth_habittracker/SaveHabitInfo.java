@@ -46,6 +46,7 @@ public class SaveHabitInfo {
             FileOutputStream fos = context.openFileOutput(FILENAME,1);
             fos.write(new String(date.toString() + " | " + text)
                     .getBytes());
+
             fos.close();
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block

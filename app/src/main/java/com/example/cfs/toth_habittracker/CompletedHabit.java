@@ -17,7 +17,7 @@ public class CompletedHabit extends Habit {
     }
 
     @Override
-    public ArrayList<String> weekDaysActive() {
-        return null;
+    public void setWeekDays(ArrayList list) {
+
     }
 }
