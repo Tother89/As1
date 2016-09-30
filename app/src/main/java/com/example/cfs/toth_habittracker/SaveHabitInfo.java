@@ -2,6 +2,8 @@ package com.example.cfs.toth_habittracker;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -43,9 +45,11 @@ public class SaveHabitInfo {
     /**Code from 301 Lab lonelyTwitter**/
     public void saveInFile(String text, Date date, Context context) {
         try {
-            FileOutputStream fos = context.openFileOutput(FILENAME,1);
+            FileOutputStream fos = context.openFileOutput(FILENAME,0);
             fos.write(new String(date.toString() + " | " + text)
                     .getBytes());
+
+            Gson gson = new Gson();
 
             fos.close();
         } catch (FileNotFoundException e) {
