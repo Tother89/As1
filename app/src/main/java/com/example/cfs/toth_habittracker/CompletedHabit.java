@@ -16,8 +16,8 @@ public class CompletedHabit extends Habit {
         return true;
     }
 
-    @Override
-    public void setWeekDays(ArrayList list) {
-
-    }
+//    @Override
+//    public void setWeekDays(ArrayList list) {
+//
+//    }
 }

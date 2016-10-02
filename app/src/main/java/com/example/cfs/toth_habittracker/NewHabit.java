@@ -7,21 +7,22 @@ import java.util.ArrayList;
 /**
  * Created by tothd on 9/26/2016.
  */
-public class NewHabit extends Habit {
+public class NewHabit extends Habit implements Habitual{
 
 
     public NewHabit(String givenTitle) {
         super(givenTitle);
     }
 
+
     @Override
     public boolean isComplete() {
         return false;
     }
 
-    @Override
-    public void setWeekDays(ArrayList list) {
-
-
-    }
+//    @Override
+//    public void setWeekDays(ArrayList list) {
+//
+//
+//    }
 }

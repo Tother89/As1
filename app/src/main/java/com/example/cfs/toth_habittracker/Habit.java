@@ -11,7 +11,7 @@ import java.util.Date;
 /**
  * Created by toth on 9/24/2016.
  */
-public abstract class Habit implements HabitInterface{
+public abstract class Habit{
     private String title;
     public Date date;
 
@@ -21,13 +21,13 @@ public abstract class Habit implements HabitInterface{
     }
 
     public void editTitle(String title) throws HabitTooLongException{
-        if(title.length() > 100){
+        if(title.length() > 30){
             throw new HabitTooLongException();
         }
         this.title = title;
     }
 
-    public String getHabitTitle() {
+    public String getTitle() {
         return title;
     }
 
@@ -37,8 +37,8 @@ public abstract class Habit implements HabitInterface{
 
     public abstract boolean isComplete();
 
-    //Method that returns
-    public abstract void setWeekDays(ArrayList list);
+
+//    public abstract void setWeekDays(ArrayList list);
 
 
 }
