@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,7 +34,7 @@ public class HabitMainActivity extends AppCompatActivity {
     private ListView oldHabitView;
     private TextView currentDayText;
     private EditText userInput;
-    private ArrayList<Habit> habitList;
+    private ArrayList<Habit> habitList = new ArrayList<>();
     private ArrayAdapter<Habit> adapter;
 
     @Override
@@ -45,30 +46,25 @@ public class HabitMainActivity extends AppCompatActivity {
         String today = findWeekDay(c.get(Calendar.DAY_OF_WEEK));
         currentDayText = (TextView) findViewById(R.id.currentDay);
         currentDayText.setText(today);
-        String habitTitle = userInput.getText().toString();
-        Habit habit = new NewHabit(habitTitle);
+
+        Habit habit = new NewHabit("Default");
         habitList.add(habit);
         oldHabitView = (ListView) findViewById(R.id.listView);
         userInput = (EditText) findViewById(R.id.editText);
         saveInFile();
     }
 
-    @Override
-    protected void onStart(){
-        super.onStart();
-        loadFromFile();
 
-
-    }
 
     @Override
     protected  void onResume(){
         super.onResume();
-        habitList = new ArrayList<>();
         loadFromFile();
         userInput.setText("");
         adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, habitList);
         oldHabitView.setAdapter(adapter);
+
+        saveInFile();
         adapter.notifyDataSetChanged();
     }
     /** sendMessage from https://developer.android.com/training/basics/firstapp/starting-activity.html
@@ -81,7 +77,7 @@ public class HabitMainActivity extends AppCompatActivity {
         intent.putExtra(HABIT_TITLE,message);
         startActivity(intent);
     }
-    public void enterCompleted(){
+    public void enterCompleted(View view){
         Intent intent = new Intent(this, CompletedHabitsActivity.class);
         startActivity(intent);
     }
@@ -93,7 +89,7 @@ public class HabitMainActivity extends AppCompatActivity {
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
-            Type listType = new TypeToken<Habit>(){}.getType();
+            Type listType = new TypeToken<ArrayList>(){}.getType();
             habitList = gson.fromJson(in,listType);
 
         } catch (FileNotFoundException e) {

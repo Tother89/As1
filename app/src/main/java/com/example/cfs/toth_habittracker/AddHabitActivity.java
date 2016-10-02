@@ -34,7 +34,7 @@ public class AddHabitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
-
+        loadFromFile();
         Intent intent = getIntent();
         String message = intent.getStringExtra(HabitMainActivity.HABIT_TITLE);
 
@@ -58,6 +58,7 @@ public class AddHabitActivity extends AppCompatActivity {
     }
 
     protected void setWeekDaysActive(View view) {
+
 //        Date date = new Date();
         ArrayList<String> dayList = new ArrayList();
         // Is the button now checked?
@@ -84,7 +85,7 @@ public class AddHabitActivity extends AppCompatActivity {
             dayList.add("Sunday");
         }
 
-        //saveInFile();
+
         finish();
     }
 
@@ -95,10 +96,8 @@ public class AddHabitActivity extends AppCompatActivity {
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
-            Type listType = new TypeToken<ArrayList<Habit>>() {
-            }.getType();
+            Type listType = new TypeToken<ArrayList>(){}.getType();
             habitList = gson.fromJson(in, listType);
-
         } catch (FileNotFoundException e) {
 			/* Create a brand new list if we can't find the file. */
             habitList = new ArrayList<>();
