@@ -33,7 +33,7 @@ public class HabitMainActivity extends AppCompatActivity {
     private ListView oldHabitView;
     private TextView currentDayText;
     private EditText userInput;
-    private ArrayList<Habit> habitList = new ArrayList<>();
+    private ArrayList<Habit> habitList;
     private ArrayAdapter<Habit> adapter;
 
     @Override
@@ -45,7 +45,9 @@ public class HabitMainActivity extends AppCompatActivity {
         String today = findWeekDay(c.get(Calendar.DAY_OF_WEEK));
         currentDayText = (TextView) findViewById(R.id.currentDay);
         currentDayText.setText(today);
-
+        String habitTitle = userInput.getText().toString();
+        Habit habit = new NewHabit(habitTitle);
+        habitList.add(habit);
         oldHabitView = (ListView) findViewById(R.id.listView);
         userInput = (EditText) findViewById(R.id.editText);
         saveInFile();
@@ -55,15 +57,18 @@ public class HabitMainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         loadFromFile();
-        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, habitList);
-        oldHabitView.setAdapter(adapter);
+
+
     }
 
     @Override
     protected  void onResume(){
         super.onResume();
+        habitList = new ArrayList<>();
         loadFromFile();
         userInput.setText("");
+        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, habitList);
+        oldHabitView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
     /** sendMessage from https://developer.android.com/training/basics/firstapp/starting-activity.html
@@ -88,7 +93,7 @@ public class HabitMainActivity extends AppCompatActivity {
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
-            Type listType = new TypeToken<ArrayList<Habit>>(){}.getType();
+            Type listType = new TypeToken<Habit>(){}.getType();
             habitList = gson.fromJson(in,listType);
 
         } catch (FileNotFoundException e) {
