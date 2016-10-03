@@ -1,16 +1,25 @@
 package com.example.cfs.toth_habittracker;
 
+import android.annotation.TargetApi;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 /**
  * Created by toth on 9/24/2016.
  */
+
 public class Habit{
     private String title;
     private ArrayList<String> daysOfWeek;
+
     private Date date;
+
     public boolean isActive;
+
 
     public Habit(String givenTitle){
         this.title = givenTitle;
@@ -48,7 +57,12 @@ public class Habit{
     public boolean isonDay(String day){
         return daysOfWeek.contains(day);
     }
-//    public abstract void setWeekDays(ArrayList list);
 
 
+    @Override
+    public String toString() {
+        //SimpleDateFormat was not accessible for API 19
+       // String str = new SimpleDateFormat("yyyy-MM-dd").format(date);
+        return title + " " + date;
+    }
 }

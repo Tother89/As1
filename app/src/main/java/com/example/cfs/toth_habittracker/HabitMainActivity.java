@@ -2,6 +2,7 @@ package com.example.cfs.toth_habittracker;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -34,14 +36,19 @@ import java.util.Date;
 public class HabitMainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     public final static String HABIT_MESSAGE ="com.example.cfs.toth_habittracker.MESSAGE";
     private static final String FILENAME = "file.sav";
+
     private final int ADD_ACTIVITY = 1;
     private final int COMPLETED_ACTIVITY = 2;
+    private final int CHANGE_DAY_ACTIVITY = 3;
 
     private ListView oldHabitView;
     private EditText userInput;
-
+    private RadioButton changeDay;
+    private TextView currentDayText;
     private HabitData hData = new HabitData();
     private ArrayList<Habit> dailyHabitList = new ArrayList<>();
+    private ArrayAdapter<Habit> adapter;
+    private String today;
 
 
     @Override
@@ -49,10 +56,12 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit_main);
 
+        loadFromFile();
 
         Calendar c = Calendar.getInstance();
-        String today = findWeekDay(c.get(Calendar.DAY_OF_WEEK));
-        TextView currentDayText = (TextView) findViewById(R.id.currentDay);
+        changeDay = (RadioButton) findViewById(R.id.changeDay);
+        today = findWeekDay(c.get(Calendar.DAY_OF_WEEK));
+        currentDayText = (TextView) findViewById(R.id.currentDay);
         oldHabitView = (ListView) findViewById(R.id.listView);
         userInput = (EditText) findViewById(R.id.editText);
         currentDayText.setText(today);
@@ -62,6 +71,16 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
                 dailyHabitList.add(h);
             }
         }
+
+        saveInFile();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dailyHabitList.clear();
+        hData.getHabitList().clear();
+        adapter.notifyDataSetChanged();
         saveInFile();
     }
 
@@ -70,12 +89,20 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         super.onResume();
         loadFromFile();
         userInput.setText("");
-        ArrayAdapter<Habit> adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, hData.getHabitList());
+
+        for(Habit h: hData.getHabitList()){
+            if(h.isonDay(today)){
+                dailyHabitList.add(h);
+            }
+        }
+        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, dailyHabitList);
         oldHabitView.setAdapter(adapter);
         oldHabitView.getOnItemClickListener();
         oldHabitView.setOnItemClickListener(this);
-        saveInFile();
+        changeDay.setChecked(false);
+        currentDayText.setText(today);
         adapter.notifyDataSetChanged();
+        saveInFile();
     }
 
     //handles results from other activities
@@ -103,6 +130,11 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
                 if(resultCode == RESULT_OK){
 
                 }
+            case CHANGE_DAY_ACTIVITY:
+                if(resultCode ==RESULT_OK){
+                    today = data.getStringExtra(ChangeDayActivity.CHANGE_MESSAGE);
+
+                }
         }
     }
 
@@ -120,7 +152,18 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
 
     public void enterCompleted(View view){
         Intent intent = new Intent(this, CompletedHabitsActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent,COMPLETED_ACTIVITY);
+    }
+
+    public void getDay(View view){
+        Intent intent = new Intent(this, ChangeDayActivity.class);
+        //intent.putExtra("today",today);
+        startActivityForResult(intent,CHANGE_DAY_ACTIVITY);
+
+    }
+
+    public void deleteHabit(){
+
     }
 
     /**Code from 301 Lab https://github.com/joshua2ua/lonelyTwitter**/
@@ -132,6 +175,7 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             Type dataType = new TypeToken<HabitData>(){}.getType();
             hData = gson.fromJson(in,dataType);
+;
         } catch (FileNotFoundException e) {
 			/* Create a brand new list if we can't find the file. */
             hData = new HabitData();
@@ -187,12 +231,13 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
     }
 
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         //created time and list of completed
         //pass over as individual parts
         //or make class parcelable -- too hard do the first way each part
         //pass back the changes so it knows how to update, then update the whole object
-
+        deleteHabit();
     }
 }

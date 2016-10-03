@@ -86,16 +86,16 @@ public class AddHabitActivity extends AppCompatActivity {
         if(((CheckBox) findViewById(R.id.sunButton)).isChecked()){
             dayList.add("Sunday");
         }
-        loadFromFile();
+
         //todo:setResult(give intent with habit obj added in);
         //pass back name and array of strings
         Intent intent = getIntent();
         String message = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
         intent.putStringArrayListExtra("dayList",dayList);
-        intent.putExtra(message,HabitMainActivity.HABIT_MESSAGE);
+        intent.putExtra(HabitMainActivity.HABIT_MESSAGE,message);
         //todo: add cancel button where RESULT_CANCELED
         setResult(RESULT_OK,intent);
-        saveInFile();
+
         finish();
     }
 

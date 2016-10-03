@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_change_day"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.example.cfs.toth_habittracker.ChangeDayActivity">
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="42dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:orientation="vertical"
+        android:id="@+id/weekGroup">
+
+        <RadioButton
+            android:text="Sunday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/first"
+            android:layout_weight="1" />
+        <RadioButton
+            android:text="Monday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/second"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Tuesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/third"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Wednesday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fourth"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Thursday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/fifth"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Friday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sixth"
+            android:layout_weight="1" />
+
+        <RadioButton
+            android:text="Saturday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seventh"
+            android:layout_weight="1" />
+
+
+    </RadioGroup>
+
+    <Button
+        android:text="Change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/change"
+        android:onClick="submitDayChange"/>
+
+</RelativeLayout>
