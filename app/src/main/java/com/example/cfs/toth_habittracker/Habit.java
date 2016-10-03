@@ -31,6 +31,9 @@ public class Habit{
     public void increment(){
         this.completions++;
     }
+    public int getCompletions(){
+        return completions;
+    }
     public void editTitle(String title) throws InvalidHabitInputException {
         if(title.length() > 30 && title.length() <= 0){
             throw new InvalidHabitInputException("Input was too long or null.");

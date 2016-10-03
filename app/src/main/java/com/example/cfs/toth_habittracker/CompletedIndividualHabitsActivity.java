@@ -53,9 +53,13 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
             habitData = new HabitData();
         }
 
+
+        Date date = (Date) intent.getSerializableExtra("dateIn");
+        int myInt =  habitData.getHabit(date).getCompletions();
         habitView = (ListView) findViewById(R.id.completeListView);
         message = (TextView) findViewById(R.id.currentHabit);
-        message.setText("Current habit");
+        message.setText("Current completions: " + myInt);
+
 
         saveInFile();
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -84,29 +88,19 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
     public void removeHabit(View view) {
         super.onResume();
         loadFromFile();
-        adapter = new ArrayAdapter<Habit>(this, R.layout.active_list, completedData.getHabitList());
-
-
-        for (Habit h : habitData.getHabitList()) {
-            if (!h.getActivity()) {
-                completedData.addHabit(h);
-            }
-        }
-        adapter.notifyDataSetChanged();
+        Intent intent = getIntent();
+        Date date = (Date) intent.getSerializableExtra("dateIn");
+        habitData.getHabit(date).setActive(false);
         saveInFile();
+        setResult(RESULT_OK);
+        finish();
     }
 
     public void completeHabit(View view) {
         loadFromFile();
-
-
         Intent intent = getIntent();
         Date date = (Date) intent.getSerializableExtra("dateIn");
-
-        habitData.getHabit(date).setActive(false);
         habitData.getHabit(date).increment();
-
-
         intent.putExtra("habitDate", date);
         saveInFile();
         setResult(RESULT_OK);
