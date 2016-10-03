@@ -84,16 +84,17 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
     public void removeHabit(View view) {
         super.onResume();
         loadFromFile();
-        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list,completedData.getHabitList());
+        adapter = new ArrayAdapter<Habit>(this, R.layout.active_list, completedData.getHabitList());
 
 
-        for(Habit h: habitData.getHabitList()) {
+        for (Habit h : habitData.getHabitList()) {
             if (!h.getActivity()) {
                 completedData.addHabit(h);
             }
         }
         adapter.notifyDataSetChanged();
         saveInFile();
+    }
 
     public void completeHabit(View view) {
         loadFromFile();
