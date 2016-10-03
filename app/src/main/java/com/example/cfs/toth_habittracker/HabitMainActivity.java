@@ -93,7 +93,6 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onResume() {
         super.onResume();
-        //adapter.clear();
         loadFromFile();
         userInput.setText("");
         currentDayText.setText(hData.getToday());
@@ -101,7 +100,7 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
             if (h.isonDay(hData.getToday()) && !updateData.containsHabit(h) && h.getActivity() == true) {
                 updateData.addHabit(h);
 
-            } else if ((!h.isonDay(hData.getToday()) && hData.getHabitList().size()>0) || (h.getActivity() == false && hData.getHabitList().size()>0)) {
+            } else if (!h.isonDay(hData.getToday())  || (h.getActivity() == false && hData.getHabitList().size()>0)) {
                 updateData.removeHabit(h);
             }
         }

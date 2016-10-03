@@ -74,7 +74,7 @@ public class HabitData {
     public boolean containsHabit(Habit h) {
         for (Habit hab: this.getHabitList())
         {
-            if(hab.equals(h)){
+            if(h.getDate().equals(hab.getDate())){
             return true;
             }
 

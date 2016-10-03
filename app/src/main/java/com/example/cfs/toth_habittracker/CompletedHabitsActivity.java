@@ -42,7 +42,7 @@ public class CompletedHabitsActivity extends AppCompatActivity {
 
         habitView = (ListView) findViewById(R.id.completeListView);
         message = (TextView) findViewById(R.id.currentHabit) ;
-        message.setText(newMessage);
+        message.setText(newMessage+"'s habits");
 
         saveInFile();
     }
