@@ -44,7 +44,7 @@ public class AddHabitActivity extends AppCompatActivity {
         try {
             newHabit.editTitle(message);
 
-        } catch (HabitTooLongException e) {
+        } catch (InvalidHabitInputException e) {
             e.printStackTrace();
         }
 
@@ -91,10 +91,10 @@ public class AddHabitActivity extends AppCompatActivity {
         //pass back name and array of strings
         Intent intent = getIntent();
         String message = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
-        intent.putStringArrayListExtra(HabitMainActivity.HABIT_MESSAGE,dayList);
-        intent.putExtra(message,AddHabitActivity.RESULT_OK);
-
-        //setResult(RESULT_OK,intent);
+        intent.putStringArrayListExtra("dayList",dayList);
+        intent.putExtra(message,HabitMainActivity.HABIT_MESSAGE);
+        //todo: add cancel button where RESULT_CANCELED
+        setResult(RESULT_OK,intent);
         saveInFile();
         finish();
     }

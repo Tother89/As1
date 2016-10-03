@@ -1,10 +1,5 @@
 package com.example.cfs.toth_habittracker;
 
-import android.provider.CalendarContract;
-import android.support.v7.app.AppCompatActivity;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -22,9 +17,9 @@ public class Habit{
         this.date = new Date();
     }
 
-    public void editTitle(String title) throws HabitTooLongException{
-        if(title.length() > 30){
-            throw new HabitTooLongException();
+    public void editTitle(String title) throws InvalidHabitInputException {
+        if(title.length() > 30 && title.length() <= 0){
+            throw new InvalidHabitInputException("Input was too long or null.");
         }
         this.title = title;
     }

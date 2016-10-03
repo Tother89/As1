@@ -34,14 +34,15 @@ import java.util.Date;
 public class HabitMainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     public final static String HABIT_MESSAGE ="com.example.cfs.toth_habittracker.MESSAGE";
     private static final String FILENAME = "file.sav";
+    private final int ADD_ACTIVITY = 1;
+    private final int COMPLETED_ACTIVITY = 2;
 
     private ListView oldHabitView;
     private EditText userInput;
 
     private HabitData hData = new HabitData();
-    private ArrayList<Habit> habitList = new ArrayList<>();
     private ArrayList<Habit> dailyHabitList = new ArrayList<>();
-    private ArrayAdapter<Habit> adapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +70,7 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         super.onResume();
         loadFromFile();
         userInput.setText("");
-        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, dailyHabitList);
+        ArrayAdapter<Habit> adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, hData.getHabitList());
         oldHabitView.setAdapter(adapter);
         oldHabitView.getOnItemClickListener();
         oldHabitView.setOnItemClickListener(this);
@@ -77,30 +78,32 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         adapter.notifyDataSetChanged();
     }
 
+    //handles results from other activities
+    //create the new habit from addhabitactivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         //Nice implementation for a switch statement at this point
         // http://stackoverflow.com/questions/920306/sending-data-back-to-the-main-activity-in-android
-//        switch(requestCode){
-//            case (1):
-//                if(resultCode == RESULT_OK){
-                    String d = data.getDataString();
+        switch(requestCode) {
+            case (ADD_ACTIVITY):
+                if (resultCode == RESULT_OK) {
+                    String d = data.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
                     Habit habit = new Habit(d);
                     // found this snipet at http://stackoverflow.com/questions/5374546/passing-arraylist-through-intent
-                    habit.setDaysOfWeek(data.getStringArrayListExtra(HABIT_MESSAGE));
+                    habit.setDaysOfWeek(data.getStringArrayListExtra("dayList"));
                     hData.addHabit(habit);
                     saveInFile();
 
-//                }
-//        }
+                }
+                //when coming back from completed
+                //compare with old hData until find one with same created time
+                //then update that one that is found to new data aka adding a new completed or deleted
+            case(COMPLETED_ACTIVITY):
+                if(resultCode == RESULT_OK){
 
-        //handles results from other activities
-        //create the new habit from addhabitactivity
-
-        //when coming back from completed
-        //compare with old hData until find one with same created time
-        //then update that one that is found to new data aka adding a new completed or deleted
+                }
+        }
     }
 
     /** sendMessage from https://developer.android.com/training/basics/firstapp/starting-activity.html
@@ -108,10 +111,11 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
      * modified by toth
      */
     public void enterHabit(View view) {
+
         Intent intent = new Intent(this, AddHabitActivity.class);
         String message = userInput.getText().toString();
         intent.putExtra(HABIT_MESSAGE,message);
-        startActivity(intent);
+        startActivityForResult(intent,ADD_ACTIVITY);
     }
 
     public void enterCompleted(View view){
