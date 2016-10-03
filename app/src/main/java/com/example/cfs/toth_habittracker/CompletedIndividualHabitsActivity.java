@@ -81,6 +81,7 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
             }
         }
         adapter = new ArrayAdapter<Habit>(this, R.layout.active_list, completedData.getHabitList());
+        habitView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         saveInFile();
     }

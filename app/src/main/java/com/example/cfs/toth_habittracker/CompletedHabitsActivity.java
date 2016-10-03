@@ -52,7 +52,7 @@ public class CompletedHabitsActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadFromFile();
+
         //Iterate through and find all the completed ones
         for(Habit h: habitData.getHabitList()) {
             if (h.getCompletions()>0) {
@@ -60,19 +60,21 @@ public class CompletedHabitsActivity extends AppCompatActivity {
             }
         }
         adapter = new ArrayAdapter<Habit>(this,R.layout.active_list,completedData.getHabitList());
+        habitView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         saveInFile();
 
     }
 
     public void removeHabits(View view){
-        loadFromFile();
+
 
         //
         for(Habit h: completedData.getHabitList()) {
             habitData.getHabitList().remove(h);
         }
-        adapter.notifyDataSetChanged();
+
+
         saveInFile();
         setResult(RESULT_OK);
         finish();
