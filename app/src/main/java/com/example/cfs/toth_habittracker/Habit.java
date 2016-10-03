@@ -41,6 +41,15 @@ public class Habit{
 
     public void setDate(){ this.date = new Date();}
 
+    public void setDaysOfWeek(ArrayList<String> arr){
+        this.daysOfWeek = arr;
+    }
+
+    public ArrayList<String> getDaysOfWeek() {
+        return daysOfWeek;
+    }
+
+    //Returns which habits are active on given day
     public boolean isonDay(String day){
         return daysOfWeek.contains(day);
     }

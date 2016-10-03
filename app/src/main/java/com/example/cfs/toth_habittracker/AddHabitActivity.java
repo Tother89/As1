@@ -24,16 +24,18 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class AddHabitActivity extends AppCompatActivity {
+
     private Habit newHabit = new Habit("New task.");
     private static final String FILENAME = "file.sav";
 
-    private ArrayList<Habit> habitList;
-
+    private HabitData hData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_habit);
+
+        hData = new HabitData();
         loadFromFile();
         Intent intent = getIntent();
         String message = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
@@ -84,16 +86,16 @@ public class AddHabitActivity extends AppCompatActivity {
         if(((CheckBox) findViewById(R.id.sunButton)).isChecked()){
             dayList.add("Sunday");
         }
-
+        loadFromFile();
         //todo:setResult(give intent with habit obj added in);
         //pass back name and array of strings
         Intent intent = getIntent();
         String message = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
-        //intent.putExtra(dayList,AddHabitActivity.RESULT_OK);
-        //intent.putExtra(message,AddHabitActivity.RESULT_OK);
-        //intent.putExtra(dayList, new String[]{message})
-        setResult(RESULT_OK,intent);
+        intent.putStringArrayListExtra(HabitMainActivity.HABIT_MESSAGE,dayList);
+        intent.putExtra(message,AddHabitActivity.RESULT_OK);
 
+        //setResult(RESULT_OK,intent);
+        saveInFile();
         finish();
     }
 
@@ -104,13 +106,11 @@ public class AddHabitActivity extends AppCompatActivity {
             BufferedReader in = new BufferedReader(new InputStreamReader(fis));
             Gson gson = new Gson();
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
-            Type listType = new TypeToken<ArrayList>(){}.getType();
-            habitList = gson.fromJson(in, listType);
+            Type listType = new TypeToken<HabitData>(){}.getType();
+            hData = gson.fromJson(in, listType);
         } catch (FileNotFoundException e) {
 			/* Create a brand new list if we can't find the file. */
-            habitList = new ArrayList<>();
-        } catch (IOException e){
-        throw new RuntimeException(e);
+            hData = new HabitData();
         }
 
     }
@@ -122,7 +122,7 @@ public class AddHabitActivity extends AppCompatActivity {
             FileOutputStream fos = openFileOutput(FILENAME,0);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
-            gson.toJson(habitList, out);
+            gson.toJson(hData, out);
             out.flush();
             fos.close();
         } catch (FileNotFoundException e) {
