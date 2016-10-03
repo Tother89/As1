@@ -15,7 +15,7 @@ import java.util.Date;
 public class Habit{
     private String title;
     private ArrayList<String> daysOfWeek;
-
+    private int completions;
     private Date date;
 
     private boolean isActive;
@@ -25,9 +25,12 @@ public class Habit{
         this.title = givenTitle;
         this.date = new Date();
         this.isActive = true;
+        this.completions = 0;
 
     }
-
+    public void increment(){
+        this.completions++;
+    }
     public void editTitle(String title) throws InvalidHabitInputException {
         if(title.length() > 30 && title.length() <= 0){
             throw new InvalidHabitInputException("Input was too long or null.");

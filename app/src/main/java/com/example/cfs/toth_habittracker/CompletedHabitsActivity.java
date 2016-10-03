@@ -3,6 +3,7 @@ package com.example.cfs.toth_habittracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -52,7 +53,7 @@ public class CompletedHabitsActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         loadFromFile();
-        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list,habitData.getHabitList());
+        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list,completedData.getHabitList());
 
         //Iterate through and find all the completed ones
         for(Habit h: habitData.getHabitList()) {
@@ -64,9 +65,13 @@ public class CompletedHabitsActivity extends AppCompatActivity {
         saveInFile();
     }
 
-    public void removeHabits(){
+    public void removeHabits(View view){
         loadFromFile();
         habitData.getHabitList().clear();
+        //
+        for(Habit h: completedData.getHabitList()) {
+            habitData.getHabitList().remove(h);
+        }
         adapter.notifyDataSetChanged();
         saveInFile();
         setResult(RESULT_OK);

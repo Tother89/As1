@@ -88,12 +88,13 @@ public class HabitData {
         return false;
 
     }
-    public boolean containsHabit(Date d){
+    public Habit getHabit(Date d){
         for(Habit habit: this.getHabitList()){
             if(d.equals(habit.getDate())){
-                return true;
+                return habit;
             }
         }
-        return false;
+        return null;
     }
+
 }

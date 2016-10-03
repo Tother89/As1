@@ -1,12 +1,18 @@
 package com.example.cfs.toth_habittracker;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -19,6 +25,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
+import java.util.Date;
 
 public class CompletedIndividualHabitsActivity extends AppCompatActivity {
     private static final String FILENAME = "file.sav";
@@ -27,6 +34,12 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
     private ListView habitView;
     private TextView message;
     private ArrayAdapter<Habit> adapter;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,15 +49,18 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         loadFromFile();
-        if(habitData==null){
+        if (habitData == null) {
             habitData = new HabitData();
         }
 
         habitView = (ListView) findViewById(R.id.completeListView);
-        message = (TextView) findViewById(R.id.currentHabit) ;
+        message = (TextView) findViewById(R.id.currentHabit);
         message.setText("Current habit");
 
         saveInFile();
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -55,33 +71,43 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
         completedData.getHabitList().clear();
 
         //Iterate through and find all the completed ones
-        for(Habit h: habitData.getHabitList()){
-            if(!h.getActivity()){
+        for (Habit h : habitData.getHabitList()) {
+            if (!h.getActivity()) {
                 completedData.addHabit(h);
             }
         }
-        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list,habitData.getHabitList());
+        adapter = new ArrayAdapter<Habit>(this, R.layout.active_list, completedData.getHabitList());
         adapter.notifyDataSetChanged();
         saveInFile();
     }
 
-    public void removeHabit(){
+    public void removeHabit(View view) {
+        super.onResume();
         loadFromFile();
-        completedData.getHabitList().clear();
+        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list,completedData.getHabitList());
+
+
+        for(Habit h: habitData.getHabitList()) {
+            if (!h.getActivity()) {
+                completedData.addHabit(h);
+            }
+        }
         adapter.notifyDataSetChanged();
         saveInFile();
-        setResult(RESULT_OK);
-        finish();
-    }
 
-    public void completeHabit(Habit habit){
-        int count=0;
-            habit.setActive(false);
-            count++;
+    public void completeHabit(View view) {
+        loadFromFile();
+
+
         Intent intent = getIntent();
-        String message  = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
-        intent.putExtra("habitTitle",message);
-        intent.putExtra("count",count);
+        Date date = (Date) intent.getSerializableExtra("dateIn");
+
+        habitData.getHabit(date).setActive(false);
+        habitData.getHabit(date).increment();
+
+
+        intent.putExtra("habitDate", date);
+        saveInFile();
         setResult(RESULT_OK);
         finish();
     }
@@ -100,7 +126,7 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
             habitData = gson.fromJson(in, dataType);
             ;
         } catch (FileNotFoundException e) {
-			/* Create a brand new list if we can't find the file. */
+            /* Create a brand new list if we can't find the file. */
             habitData = new HabitData();
         }
     }
@@ -126,5 +152,40 @@ public class CompletedIndividualHabitsActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("CompletedIndividualHabits Page") // TODO: Define a title for the content shown.
+                // TODO: Make sure this auto-generated URL is correct.
+                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
+    }
 }
 

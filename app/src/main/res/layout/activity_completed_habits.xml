@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/clear" />
+        android:id="@+id/clear"
+        android:onClick="removeHabits"/>
 
 
     <ListView

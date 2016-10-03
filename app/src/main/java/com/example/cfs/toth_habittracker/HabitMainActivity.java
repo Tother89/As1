@@ -23,11 +23,13 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
+import java.util.Date;
 
 
 public class HabitMainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     public final static String HABIT_MESSAGE = "com.example.cfs.toth_habittracker.MESSAGE";
     private static final String FILENAME = "file.sav";
+    private final int COMPLETED_INDIVIDUAL_ACTIVITY = 4;
 
     private final int ADD_ACTIVITY = 1;
     private final int COMPLETED_ACTIVITY = 2;
@@ -134,13 +136,6 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
                 //then update that one that is found to new data aka adding a new completed or deleted
             case (COMPLETED_ACTIVITY):
                 if (resultCode == RESULT_OK) {
-                    String habitDate = data.getStringExtra("habitTitle");
-                    int num = 0;
-                    data.getIntExtra("count",num);
-
-                    loadFromFile();
-
-
 
                     break;
                 }
@@ -153,6 +148,10 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
                     break;
 
                 }
+            case COMPLETED_INDIVIDUAL_ACTIVITY:
+                if(resultCode == RESULT_OK){
+                    break;
+                }
         }
     }
 
@@ -162,10 +161,11 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         //pass over as individual parts
         //or make class parcelable -- too hard do the first way each part
         //pass back the changes so it knows how to update, then update the whole object
+        //http://stackoverflow.com/questions/7073577/how-to-get-object-from-listview-in-setonitemclicklistener-in-android
+        Habit habit = (Habit) parent.getAdapter().getItem(position);
         Intent intent = new Intent(this, CompletedIndividualHabitsActivity.class);
-//        intent.put
-        intent.putExtra(HabitMainActivity.HABIT_MESSAGE,id);
-        startActivityForResult(intent,COMPLETED_ACTIVITY);
+        intent.putExtra("dateIn",habit.getDate());
+         startActivityForResult(intent,COMPLETED_INDIVIDUAL_ACTIVITY);
 
     }
 
