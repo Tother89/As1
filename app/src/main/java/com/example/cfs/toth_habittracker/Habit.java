@@ -13,7 +13,9 @@ import java.util.Date;
  */
 public abstract class Habit{
     private String title;
+    private ArrayList<String> daysOfWeek;
     public Date date;
+    public boolean isActive;
 
     public Habit(String givenTitle){
         this.title = givenTitle;
@@ -35,9 +37,9 @@ public abstract class Habit{
         return date;
     }
 
-    public abstract boolean isComplete();
-
-
+    public boolean isonDay(String day){
+        return daysOfWeek.contains(day);
+    }
 //    public abstract void setWeekDays(ArrayList list);
 
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-public class HabitMainActivity extends AppCompatActivity {
+public class HabitMainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
     public final static String HABIT_TITLE ="com.example.cfs.toth_habittracker.MESSAGE";
     private static final String FILENAME = "file.sav";
     private ListView oldHabitView;
@@ -50,6 +51,13 @@ public class HabitMainActivity extends AppCompatActivity {
         Habit habit = new NewHabit("Default");
         habitList.add(habit);
         oldHabitView = (ListView) findViewById(R.id.listView);
+
+        for(Habit h: habitList){
+            if(h.isonDay(today)){
+                //:todo create smaller ative list
+            }
+
+        }
         userInput = (EditText) findViewById(R.id.editText);
         saveInFile();
     }
@@ -64,9 +72,23 @@ public class HabitMainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, habitList);
         oldHabitView.setAdapter(adapter);
 
+        oldHabitView.getOnItemClickListener();
+        oldHabitView.setOnItemClickListener(this);
         saveInFile();
         adapter.notifyDataSetChanged();
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //handles results from other activities
+        //create the new habit from addhabitactivity
+
+        //when coming back from completed
+        //compare with old hablist until find one with same created time
+        //then update that one that is found to new data aka adding a new completed or deleted
+    }
+
     /** sendMessage from https://developer.android.com/training/basics/firstapp/starting-activity.html
      *
      * modified by toth
@@ -77,6 +99,7 @@ public class HabitMainActivity extends AppCompatActivity {
         intent.putExtra(HABIT_TITLE,message);
         startActivity(intent);
     }
+
     public void enterCompleted(View view){
         Intent intent = new Intent(this, CompletedHabitsActivity.class);
         startActivity(intent);
@@ -91,6 +114,7 @@ public class HabitMainActivity extends AppCompatActivity {
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             Type listType = new TypeToken<ArrayList>(){}.getType();
             habitList = gson.fromJson(in,listType);
+
 
         } catch (FileNotFoundException e) {
 			/* Create a brand new list if we can't find the file. */
@@ -146,4 +170,13 @@ public class HabitMainActivity extends AppCompatActivity {
         return day;
     }
 
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //created time and list of completed
+        //pass over as individual parts
+        //or make class parcelable -- too hard do the first way each part
+        //pass back the changes so it knows how to update, then update the whole object
+
+    }
 }

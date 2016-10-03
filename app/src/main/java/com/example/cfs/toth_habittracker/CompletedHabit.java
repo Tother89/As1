@@ -11,10 +11,7 @@ public class CompletedHabit extends Habit {
         super(givenTitle);
     }
 
-    @Override
-    public boolean isComplete() {
-        return true;
-    }
+
 
 //    @Override
 //    public void setWeekDays(ArrayList list) {

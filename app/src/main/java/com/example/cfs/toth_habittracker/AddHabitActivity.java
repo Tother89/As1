@@ -85,7 +85,8 @@ public class AddHabitActivity extends AppCompatActivity {
             dayList.add("Sunday");
         }
 
-
+        //todo:setResult(give intent with habit obj added in);
+        //pass back name and array of strings
         finish();
     }
 
