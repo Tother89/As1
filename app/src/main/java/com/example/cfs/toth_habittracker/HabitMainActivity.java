@@ -64,17 +64,12 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         if(hData == null){
             hData = new HabitData();
         }
+
+
         currentDayText = (TextView) findViewById(R.id.currentDay);
         oldHabitView = (ListView) findViewById(R.id.listView);
         userInput = (EditText) findViewById(R.id.editText);
         currentDayText.setText(hData.getToday());
-
-
-//        for (Habit h : hData.getHabitList()) {
-//            if (h.isonDay(hData.getToday())) {
-//                updateData.addHabit(h);
-//            }
-//        }
 
         saveInFile();
     }

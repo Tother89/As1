@@ -8,15 +8,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.cfs.toth_habittracker.CompletedHabitsActivity">
+    tools:context="com.example.cfs.toth_habittracker.CompletedHabitsActivity2">
 
     <Button
-        android:text="Clear All"
+        android:text="Delete Habit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/clear" />
+        android:id="@+id/clear"
+        android:onClick="removeHabit"/>
 
     <Button
         android:text="Complete"
@@ -24,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/complete" />
+        android:id="@+id/completeHabit" />
 
     <ListView
         android:layout_width="match_parent"
