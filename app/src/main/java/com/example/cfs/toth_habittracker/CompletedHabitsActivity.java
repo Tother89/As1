@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import static android.provider.Telephony.Mms.Part.FILENAME;
 
 public class CompletedHabitsActivity extends AppCompatActivity {
-    private ArrayList<Habit> habitList = new ArrayList<>();
+    private HabitData hData;
     private ListView oldHabitView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +43,11 @@ public class CompletedHabitsActivity extends AppCompatActivity {
             Gson gson = new Gson();
             // Code from http://stackoverflow.com/questions/12384064/gson-convert-from-json-to-a-typed-arraylistt
             Type listType = new TypeToken<ArrayList>(){}.getType();
-            habitList = gson.fromJson(in,listType);
+            hData = gson.fromJson(in,listType);
 
         } catch (FileNotFoundException e) {
 			/* Create a brand new list if we can't find the file. */
-            habitList = new ArrayList<>();
+            hData = new HabitData();
         }
     }
 
@@ -58,7 +58,7 @@ public class CompletedHabitsActivity extends AppCompatActivity {
             FileOutputStream fos = openFileOutput(FILENAME,0);
             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(fos));
             Gson gson = new Gson();
-            gson.toJson(habitList, out);
+            gson.toJson(hData, out);
             out.flush();
             fos.close();
         } catch (FileNotFoundException e) {

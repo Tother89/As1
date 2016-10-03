@@ -24,6 +24,7 @@ public class Habit{
     public Habit(String givenTitle){
         this.title = givenTitle;
         this.date = new Date();
+
     }
 
     public void editTitle(String title) throws InvalidHabitInputException {

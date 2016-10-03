@@ -3,6 +3,7 @@ package com.example.cfs.toth_habittracker;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -14,11 +15,11 @@ public class ChangeDayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_day);
 
-//        Intent intent = getIntent();
-//        day = intent.getStringExtra("today");
+        Intent intent = getIntent();
+        day = intent.getStringExtra("today");
     }
 
-    public void sumbitDayChange(){
+    public void submitDayChange(View view){
         //http://stackoverflow.com/questions/9748070/radio-group-onclick-event-not-firing-how-do-i-tell-which-is-selected
         //Found out how to do this properly from stackoverflow
         RadioGroup radioGroup = (RadioGroup) findViewById(R.id.weekGroup);
