@@ -91,15 +91,8 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         loadFromFile();
         userInput.setText("");
         currentDayText.setText(hData.getToday());
-        for (Habit h : hData.getHabitList()) {
-            if (h.isonDay(hData.getToday()) && !updateData.containsHabit(h) && h.getActivity() == true) {
-                updateData.addHabit(h);
-
-            } else if (!h.isonDay(hData.getToday())  || (h.getActivity() == false && hData.getHabitList().size()>0)) {
-                updateData.removeHabit(h);
-
-            }
-        }
+        updateData.getHabitList().clear();
+        loadHabitList();
         adapter = new ArrayAdapter<Habit>(this, R.layout.active_list, updateData.getHabitList());
 
         oldHabitView.setAdapter(adapter);
@@ -111,7 +104,17 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         saveInFile();
         }
 
+    public void loadHabitList() {
+        for (Habit h : hData.getHabitList()) {
+            if (h.isonDay(hData.getToday()) && !updateData.containsHabit(h) && h.getActivity() == true) {
+                updateData.addHabit(h);
 
+            } else if (!h.isonDay(hData.getToday()) || (h.getActivity() == false && hData.getHabitList().size() > 0)) {
+                updateData.removeHabit(h);
+
+            }
+        }
+    }
     //handles results from other activities
     //create the new habit from addhabitactivity
     @Override
@@ -124,6 +127,9 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
                 if (resultCode == RESULT_OK) {
                     loadFromFile();
                     String d = data.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
+                    if(d.equals(null)){
+                        d = "Default habit";
+                    }
                     Habit habit = new Habit(d);
                     // found this snipet at http://stackoverflow.com/questions/5374546/passing-arraylist-through-intent
                     habit.setDaysOfWeek(data.getStringArrayListExtra("dayList"));
