@@ -71,9 +71,10 @@ public class Habit{
 
     @Override
     public String toString() {
-        //SimpleDateFormat was not accessible for API 19
-       // String str = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        return title + " " + date;
+//          Attempted to implement this but was unsuccessful due to a runtime error
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//        String str = format.format(date);
+        return title + " created on " + date.toString();
     }
 
 

@@ -102,6 +102,7 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
 
             } else if (!h.isonDay(hData.getToday())  || (h.getActivity() == false && hData.getHabitList().size()>0)) {
                 updateData.removeHabit(h);
+
             }
         }
         adapter = new ArrayAdapter<Habit>(this, R.layout.active_list, updateData.getHabitList());

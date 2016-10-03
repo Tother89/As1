@@ -68,7 +68,7 @@ public class HabitData {
     }
 
     public void removeHabit(Habit h) {
-        this.habitList.remove(h);
+
     }
 
     public boolean containsHabit(Habit h) {

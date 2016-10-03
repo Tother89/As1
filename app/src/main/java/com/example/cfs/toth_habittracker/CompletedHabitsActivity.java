@@ -52,6 +52,12 @@ public class CompletedHabitsActivity extends AppCompatActivity {
         super.onResume();
         loadFromFile();
         adapter = new ArrayAdapter<Habit>(this,R.layout.active_list,habitData.getHabitList());
+
+        //Iterate through and find all the completed ones
+        for(Habit h: habitData.getHabitList()){
+
+        }
+
         adapter.notifyDataSetChanged();
         saveInFile();
     }
@@ -61,6 +67,8 @@ public class CompletedHabitsActivity extends AppCompatActivity {
         habitData.getHabitList().clear();
         adapter.notifyDataSetChanged();
         saveInFile();
+        setResult(RESULT_OK);
+        finish();
     }
 
     /**
