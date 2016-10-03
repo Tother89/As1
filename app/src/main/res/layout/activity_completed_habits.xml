@@ -31,8 +31,8 @@
         android:text="Current Habit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:id="@+id/currentHabit"
-        android:layout_above="@+id/completeListView" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="47dp" />
 </RelativeLayout>

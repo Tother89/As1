@@ -3,6 +3,7 @@ package com.example.cfs.toth_habittracker;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -28,6 +29,11 @@ public class HabitData {
     public ArrayList<Habit> getHabitList(){
         return this.habitList;
     }
+
+//    public Habit getHabit(ArrayList<Habit> arrayList){
+//        this.getHabitList().contains()
+//
+//    }
 
     public void setHabitList(ArrayList<Habit> habitList) {
         this.habitList = habitList;
@@ -81,5 +87,13 @@ public class HabitData {
         }
         return false;
 
+    }
+    public boolean containsHabit(Date d){
+        for(Habit habit: this.getHabitList()){
+            if(d.equals(habit.getDate())){
+                return true;
+            }
+        }
+        return false;
     }
 }

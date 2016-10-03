@@ -19,7 +19,7 @@
         <activity android:name=".CompletedHabits" />
         <activity android:name=".ChangeDayActivity" />
         <activity android:name=".CompletedHabitsActivity" />
-        <activity android:name=".CompletedHabitsActivity2"></activity>
+        <activity android:name=".CompletedIndividualHabitsActivity"></activity>
     </application>
 
 </manifest>

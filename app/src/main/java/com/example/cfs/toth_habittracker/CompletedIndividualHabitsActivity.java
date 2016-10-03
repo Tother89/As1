@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,21 +20,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.lang.reflect.Type;
 
-public class CompletedHabitsActivity2 extends AppCompatActivity {
+public class CompletedIndividualHabitsActivity extends AppCompatActivity {
     private static final String FILENAME = "file.sav";
     private HabitData habitData;
-    private HabitData completedData;
+    private HabitData completedData = new HabitData();
     private ListView habitView;
     private TextView message;
     private ArrayAdapter<Habit> adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_completed_habits);
+        setContentView(R.layout.activity_individual_habit);
 
-        long item=0;
+
         Intent intent = getIntent();
-        String newMessage = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
+
         loadFromFile();
         if(habitData==null){
             habitData = new HabitData();
@@ -43,7 +42,7 @@ public class CompletedHabitsActivity2 extends AppCompatActivity {
 
         habitView = (ListView) findViewById(R.id.completeListView);
         message = (TextView) findViewById(R.id.currentHabit) ;
-        message.setText(newMessage+"'s habits");
+        message.setText("Current habit");
 
         saveInFile();
     }
@@ -53,7 +52,7 @@ public class CompletedHabitsActivity2 extends AppCompatActivity {
         super.onResume();
         loadFromFile();
 
-        completedData = new HabitData();
+        completedData.getHabitList().clear();
 
         //Iterate through and find all the completed ones
         for(Habit h: habitData.getHabitList()){
@@ -68,19 +67,21 @@ public class CompletedHabitsActivity2 extends AppCompatActivity {
 
     public void removeHabit(){
         loadFromFile();
-        habitData.getHabitList().clear();
+        completedData.getHabitList().clear();
         adapter.notifyDataSetChanged();
         saveInFile();
         setResult(RESULT_OK);
         finish();
     }
 
-    public void completeHabit(){
+    public void completeHabit(Habit habit){
         int count=0;
-        for(Habit h:habitData.getHabitList()){
-            h.setActive(false);
+            habit.setActive(false);
             count++;
-        }
+        Intent intent = getIntent();
+        String message  = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
+        intent.putExtra("habitTitle",message);
+        intent.putExtra("count",count);
         setResult(RESULT_OK);
         finish();
     }

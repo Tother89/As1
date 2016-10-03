@@ -24,6 +24,7 @@ import java.lang.reflect.Type;
 public class CompletedHabitsActivity extends AppCompatActivity {
     private static final String FILENAME = "file.sav";
     private HabitData habitData;
+    private HabitData completedData;
     private ListView habitView;
     private TextView message;
     private ArrayAdapter<Habit> adapter;
@@ -42,7 +43,7 @@ public class CompletedHabitsActivity extends AppCompatActivity {
 
         habitView = (ListView) findViewById(R.id.completeListView);
         message = (TextView) findViewById(R.id.currentHabit) ;
-        message.setText(newMessage+"'s habits");
+        message.setText(newMessage+"'s completed habits");
 
         saveInFile();
     }
@@ -54,10 +55,11 @@ public class CompletedHabitsActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<Habit>(this,R.layout.active_list,habitData.getHabitList());
 
         //Iterate through and find all the completed ones
-        for(Habit h: habitData.getHabitList()){
-
+        for(Habit h: habitData.getHabitList()) {
+            if (!h.getActivity()) {
+                completedData.addHabit(h);
+            }
         }
-
         adapter.notifyDataSetChanged();
         saveInFile();
     }

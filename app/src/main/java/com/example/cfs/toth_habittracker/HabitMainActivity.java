@@ -1,14 +1,11 @@
 package com.example.cfs.toth_habittracker;
 
-import android.content.Context;
 import android.content.Intent;
-import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -25,12 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.reflect.Array;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-
 
 
 public class HabitMainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -142,6 +134,14 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
                 //then update that one that is found to new data aka adding a new completed or deleted
             case (COMPLETED_ACTIVITY):
                 if (resultCode == RESULT_OK) {
+                    String habitDate = data.getStringExtra("habitTitle");
+                    int num = 0;
+                    data.getIntExtra("count",num);
+
+                    loadFromFile();
+
+
+
                     break;
                 }
             case CHANGE_DAY_ACTIVITY:
@@ -162,7 +162,11 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         //pass over as individual parts
         //or make class parcelable -- too hard do the first way each part
         //pass back the changes so it knows how to update, then update the whole object
-        optionMenu(view,id);
+        Intent intent = new Intent(this, CompletedIndividualHabitsActivity.class);
+//        intent.put
+        intent.putExtra(HabitMainActivity.HABIT_MESSAGE,id);
+        startActivityForResult(intent,COMPLETED_ACTIVITY);
+
     }
 
 
@@ -187,15 +191,9 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
 
     public void getDay(View view) {
         Intent intent = new Intent(this, ChangeDayActivity.class);
-        //intent.putExtra("today",today);
+
         startActivityForResult(intent, CHANGE_DAY_ACTIVITY);
 
-    }
-
-    public void optionMenu(View view, Long id) {
-        Intent intent = new Intent(this, CompletedHabitsActivity2.class);
-        intent.putExtra(HabitMainActivity.HABIT_MESSAGE,id);
-        startActivityForResult(intent,COMPLETED_ACTIVITY);
     }
 
     /**
