@@ -34,7 +34,7 @@ public class CompletedHabitsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_completed_habits);
 
-        long item=0;
+
         Intent intent = getIntent();
         String newMessage = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
         loadFromFile();
