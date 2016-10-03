@@ -11,10 +11,10 @@ import java.util.Date;
 /**
  * Created by toth on 9/24/2016.
  */
-public abstract class Habit{
+public class Habit{
     private String title;
     private ArrayList<String> daysOfWeek;
-    public Date date;
+    private Date date;
     public boolean isActive;
 
     public Habit(String givenTitle){
@@ -36,6 +36,10 @@ public abstract class Habit{
     public Date getDate() {
         return date;
     }
+
+    public void setTitle(String t){ this.title=t;}
+
+    public void setDate(){ this.date = new Date();}
 
     public boolean isonDay(String day){
         return daysOfWeek.contains(day);

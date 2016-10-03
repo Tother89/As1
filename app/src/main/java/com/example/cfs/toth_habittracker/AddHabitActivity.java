@@ -24,7 +24,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 public class AddHabitActivity extends AppCompatActivity {
-    private Habit newHabit = new NewHabit("New task.");
+    private Habit newHabit = new Habit("New task.");
     private static final String FILENAME = "file.sav";
 
     private ArrayList<Habit> habitList;
@@ -36,7 +36,7 @@ public class AddHabitActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_habit);
         loadFromFile();
         Intent intent = getIntent();
-        String message = intent.getStringExtra(HabitMainActivity.HABIT_TITLE);
+        String message = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
 
 
         try {
@@ -87,6 +87,13 @@ public class AddHabitActivity extends AppCompatActivity {
 
         //todo:setResult(give intent with habit obj added in);
         //pass back name and array of strings
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(HabitMainActivity.HABIT_MESSAGE);
+        //intent.putExtra(dayList,AddHabitActivity.RESULT_OK);
+        //intent.putExtra(message,AddHabitActivity.RESULT_OK);
+        //intent.putExtra(dayList, new String[]{message})
+        setResult(RESULT_OK,intent);
+
         finish();
     }
 

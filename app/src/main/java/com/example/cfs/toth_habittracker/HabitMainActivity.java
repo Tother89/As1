@@ -30,12 +30,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class HabitMainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener{
-    public final static String HABIT_TITLE ="com.example.cfs.toth_habittracker.MESSAGE";
+    public final static String HABIT_MESSAGE ="com.example.cfs.toth_habittracker.MESSAGE";
     private static final String FILENAME = "file.sav";
     private ListView oldHabitView;
     private TextView currentDayText;
     private EditText userInput;
     private ArrayList<Habit> habitList = new ArrayList<>();
+    private ArrayList<Habit> dailyHabitList = new ArrayList<>();
     private ArrayAdapter<Habit> adapter;
 
     @Override
@@ -48,28 +49,28 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         currentDayText = (TextView) findViewById(R.id.currentDay);
         currentDayText.setText(today);
 
-        Habit habit = new NewHabit("Default");
-        habitList.add(habit);
+        loadFromFile();
+
+//        Habit habit = new Habit("Default");
+//        habitList.add(habit);
         oldHabitView = (ListView) findViewById(R.id.listView);
 
         for(Habit h: habitList){
             if(h.isonDay(today)){
-                //:todo create smaller ative list
+                dailyHabitList.add(h);
             }
-
         }
+
         userInput = (EditText) findViewById(R.id.editText);
         saveInFile();
     }
-
-
 
     @Override
     protected  void onResume(){
         super.onResume();
         loadFromFile();
         userInput.setText("");
-        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, habitList);
+        adapter = new ArrayAdapter<Habit>(this,R.layout.active_list, dailyHabitList);
         oldHabitView.setAdapter(adapter);
 
         oldHabitView.getOnItemClickListener();
@@ -81,11 +82,21 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        switch(requestCode){
+            case(AddHabitActivity.RESULT_OK):
+                if(resultCode == RESULT_OK){
+                    String d = data.getDataString();
+                    Habit habit = new Habit(d);
+                    habitList.add(habit);
+                }
+        }
+
         //handles results from other activities
         //create the new habit from addhabitactivity
 
         //when coming back from completed
-        //compare with old hablist until find one with same created time
+        //compare with old habitlist until find one with same created time
         //then update that one that is found to new data aka adding a new completed or deleted
     }
 
@@ -96,8 +107,8 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
     public void enterHabit(View view) {
         Intent intent = new Intent(this, AddHabitActivity.class);
         String message = userInput.getText().toString();
-        intent.putExtra(HABIT_TITLE,message);
-        startActivity(intent);
+        intent.putExtra(HABIT_MESSAGE,message);
+        startActivityForResult(intent,HabitMainActivity.RESULT_OK);
     }
 
     public void enterCompleted(View view){
