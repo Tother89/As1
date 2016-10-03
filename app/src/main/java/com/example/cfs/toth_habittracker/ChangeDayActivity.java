@@ -15,36 +15,37 @@ public class ChangeDayActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_day);
 
-        Intent intent = getIntent();
-        day = intent.getStringExtra("today");
+        //Intent intent = getIntent();
+        //day = intent.getStringExtra("today");
     }
 
     public void submitDayChange(View view){
-        //http://stackoverflow.com/questions/9748070/radio-group-onclick-event-not-firing-how-do-i-tell-which-is-selected
-        //Found out how to do this properly from stackoverflow
-        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.weekGroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-
-                switch(checkedId){
-                    case R.id.first:
+        int checkedId;
+        switch(view.getId()){
+                    case (R.id.first):
                         day = "Sunday";
+                        break;
                     case R.id.second:
                         day = "Monday";
+                        break;
                     case R.id.third:
                         day = "Tuesday";
+                        break;
                     case R.id.fourth:
                         day = "Wednesday";
+                        break;
                     case R.id.fifth:
                         day = "Thursday";
+                        break;
                     case R.id.sixth:
                         day = "Friday";
+                        break;
                     case R.id.seventh:
                         day = "Saturday";
+                        break;
                 }
-            }
-        });
+
+
 
         Intent intent = getIntent();
         intent.putExtra(ChangeDayActivity.CHANGE_MESSAGE,day);

@@ -18,6 +18,8 @@
         <activity android:name=".AddHabitActivity" />
         <activity android:name=".CompletedHabits" />
         <activity android:name=".ChangeDayActivity" />
+        <activity android:name=".CompletedHabitsActivity" />
+        <activity android:name=".CompletedHabitsActivity2"></activity>
     </application>
 
 </manifest>

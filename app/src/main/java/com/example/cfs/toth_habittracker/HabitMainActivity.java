@@ -46,7 +46,8 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
     private RadioButton changeDay;
     private TextView currentDayText;
     private HabitData hData;
-    private ArrayList<Habit> dailyHabitList = new ArrayList<>();
+    private HabitData updateData = new HabitData();
+
     private ArrayAdapter<Habit> adapter;
 
 
@@ -59,21 +60,21 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         loadFromFile();
 
         changeDay = (RadioButton) findViewById(R.id.changeDay);
-        //hData = new HabitData();
 
+        if(hData == null){
+            hData = new HabitData();
+        }
         currentDayText = (TextView) findViewById(R.id.currentDay);
         oldHabitView = (ListView) findViewById(R.id.listView);
         userInput = (EditText) findViewById(R.id.editText);
         currentDayText.setText(hData.getToday());
 
 
-        for (Habit h : hData.getHabitList()) {
-            if (h.isonDay(hData.getToday())) {
-                dailyHabitList.add(h);
-            }else{
-                dailyHabitList.clear();
-            }
-        }
+//        for (Habit h : hData.getHabitList()) {
+//            if (h.isonDay(hData.getToday())) {
+//                updateData.addHabit(h);
+//            }
+//        }
 
         saveInFile();
     }
@@ -83,7 +84,7 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
     protected void onDestroy() {
         super.onDestroy();
         loadFromFile();
-        dailyHabitList.clear();
+        updateData.getHabitList().clear();
         hData.getHabitList().clear();
         adapter.notifyDataSetChanged();
         saveInFile();
@@ -92,18 +93,19 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
     @Override
     protected void onResume() {
         super.onResume();
+        //adapter.clear();
         loadFromFile();
         userInput.setText("");
         currentDayText.setText(hData.getToday());
         for (Habit h : hData.getHabitList()) {
-            if (h.isonDay(hData.getToday()) && !hData.getHabitList().contains(h)) {
-                dailyHabitList.add(h);
-            }
-            else{
-                dailyHabitList.remove(h);
+            if (h.isonDay(hData.getToday()) && !updateData.containsHabit(h) && h.getActivity() == true) {
+                updateData.addHabit(h);
+
+            } else if ((!h.isonDay(hData.getToday()) && hData.getHabitList().size()>0) || (h.getActivity() == false && hData.getHabitList().size()>0)) {
+                updateData.removeHabit(h);
             }
         }
-        adapter = new ArrayAdapter<Habit>(this, R.layout.active_list, dailyHabitList);
+        adapter = new ArrayAdapter<Habit>(this, R.layout.active_list, updateData.getHabitList());
 
         oldHabitView.setAdapter(adapter);
         oldHabitView.getOnItemClickListener();
@@ -112,7 +114,7 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
 
         adapter.notifyDataSetChanged();
         saveInFile();
-    }
+        }
 
 
     //handles results from other activities
@@ -132,18 +134,22 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
                     habit.setDaysOfWeek(data.getStringArrayListExtra("dayList"));
                     hData.addHabit(habit);
                     saveInFile();
-
+                    break;
                 }
                 //when coming back from completed
                 //compare with old hData until find one with same created time
                 //then update that one that is found to new data aka adding a new completed or deleted
             case (COMPLETED_ACTIVITY):
                 if (resultCode == RESULT_OK) {
-
+                    break;
                 }
             case CHANGE_DAY_ACTIVITY:
                 if (resultCode == RESULT_OK) {
-                    hData.setToday(data.getStringExtra(ChangeDayActivity.CHANGE_MESSAGE));
+                    loadFromFile();
+                    String updateDay = data.getStringExtra(ChangeDayActivity.CHANGE_MESSAGE);
+                    hData.setToday(updateDay);
+                    saveInFile();
+                    break;
 
                 }
         }
@@ -155,7 +161,7 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
         //pass over as individual parts
         //or make class parcelable -- too hard do the first way each part
         //pass back the changes so it knows how to update, then update the whole object
-        deleteHabit();
+        optionMenu(view,id);
     }
 
 
@@ -174,6 +180,7 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
 
     public void enterCompleted(View view) {
         Intent intent = new Intent(this, CompletedHabitsActivity.class);
+        intent.putExtra(HabitMainActivity.HABIT_MESSAGE,hData.getToday());
         startActivityForResult(intent, COMPLETED_ACTIVITY);
     }
 
@@ -184,8 +191,10 @@ public class HabitMainActivity extends AppCompatActivity implements AdapterView.
 
     }
 
-    public void deleteHabit() {
-
+    public void optionMenu(View view, Long id) {
+        Intent intent = new Intent(this, CompletedHabitsActivity2.class);
+        intent.putExtra(HabitMainActivity.HABIT_MESSAGE,id);
+        startActivityForResult(intent,COMPLETED_ACTIVITY);
     }
 
     /**

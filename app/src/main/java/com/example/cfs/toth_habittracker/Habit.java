@@ -18,12 +18,13 @@ public class Habit{
 
     private Date date;
 
-    public boolean isActive;
+    private boolean isActive;
 
 
     public Habit(String givenTitle){
         this.title = givenTitle;
         this.date = new Date();
+        this.isActive = true;
 
     }
 
@@ -32,6 +33,14 @@ public class Habit{
             throw new InvalidHabitInputException("Input was too long or null.");
         }
         this.title = title;
+    }
+
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
+
+    public boolean getActivity() {
+        return this.isActive;
     }
 
     public String getTitle() {
@@ -66,4 +75,6 @@ public class Habit{
        // String str = new SimpleDateFormat("yyyy-MM-dd").format(date);
         return title + " " + date;
     }
+
+
 }

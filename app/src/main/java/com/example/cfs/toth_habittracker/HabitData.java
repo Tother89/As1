@@ -3,6 +3,7 @@ package com.example.cfs.toth_habittracker;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by toth on 10/2/2016.
@@ -13,7 +14,7 @@ public class HabitData {
     private String today;
     public HabitData(){
         Calendar c = Calendar.getInstance();
-        this.setToday(findWeekDay(c.get(Calendar.DAY_OF_WEEK)));
+        this.today = findWeekDay(c.get(Calendar.DAY_OF_WEEK));
         habitList = new ArrayList<>();
     }
 
@@ -21,8 +22,7 @@ public class HabitData {
         this.today = today;
     }
 
-    public String getToday() {
-        return this.today;
+    public String getToday() { return this.today;
     }
 
     public ArrayList<Habit> getHabitList(){
@@ -65,5 +65,21 @@ public class HabitData {
                 break;
         }
         return day;
+    }
+
+    public void removeHabit(Habit h) {
+        this.habitList.remove(h);
+    }
+
+    public boolean containsHabit(Habit h) {
+        for (Habit hab: this.getHabitList())
+        {
+            if(hab.equals(h)){
+            return true;
+            }
+
+        }
+        return false;
+
     }
 }
